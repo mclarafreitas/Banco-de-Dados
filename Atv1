@@ -1,0 +1,59 @@
+
+-- create
+CREATE TABLE IF NOT EXISTS FUNCIONARIO(
+  cpf INT,
+  p_nome VARCHAR(50) NOT NULL,
+  m_inicial CHAR,
+  u_nome VARCHAR(0) NOT NULL,
+  dt_nasc DATE NOT NULL,
+  endereco VARCHAR(100),
+  sexo CHAR NOT NULL,
+  salario FLOAT,
+  cpf_sup INT,
+  PRIMARY KEY(cpf),
+  FOREIGN KEY (cpf_sup) REFERENCES FUNCIONARIO(cpf)
+);
+
+CREATE TABLE IF NOT EXISTS DEPARTAMENTO(
+  Dnumero INT,
+  Dnome VARCHAR(50) NOT NULL,
+  Cpf_gerente INT,
+  Data_inicio_gerente INT,
+  PRIMARY KEY(Dnumero),
+  FOREIGN KEY (Cpf_gerente) REFERENCES FUNCIONARIO(cpf)
+);
+
+CREATE TABLE IF NOT EXISTS LOCALIZACAO_DEP(
+  Dnumero INT,
+  Dlocal CHAR,
+  PRIMARY KEY (Dnumero, Dlocal),
+  FOREIGN KEY (Dnumero) REFERENCES DEPARTAMENTO(Dnumero)
+);
+
+CREATE TABLE IF NOT EXISTS PROJETO(
+  Projnome CHAR,
+  Projnumero INT,
+  Projlocal INT,
+  Dnum INT,
+  PRIMARY KEY (Projnumero),
+  FOREIGN KEY (Dnum) REFERENCES DEPARTAMENTO(Dnumero)
+);
+
+CREATE TABLE IF NOT EXISTS TRABALHA_EM(
+  Fcpf INT,
+  Pnr INT,
+  Horas INT,
+  PRIMARY KEY(Fcpf, Pnr),
+  FOREIGN KEY (Fcpf) REFERENCES FUNCIONARIO (Cpf),
+  FOREIGN KEY (Pnr) REFERENCES PROJETO (Projnumero)
+);
+
+CREATE TABLE IF NOT EXISTS DEPENDENTE(
+  Fcpf INT,
+  Nome_dependente VARCHAR(50),
+  Sexo CHAR,
+  Datanasc INT,
+  Parentesco CHAR,
+  PRIMARY KEY (Fcpf, Nome_dependente),
+  FOREIGN KEY (Fcpf) REFERENCES FUNCIONARIO (Cpf)
+);
